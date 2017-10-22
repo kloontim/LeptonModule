@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 
-#include <QLabel>
+#include <QLabel>//Eibinden Der QT Header sowie den eigenen
 #include <QPushButton>
 #include <QGridLayout>
 #include <QImage>
@@ -8,9 +8,9 @@
 #include <QPainter>
 #include <QFile>
 
-#include "LeptonThread.h"
+#include "LeptonThread.h"//Lepton wirkt mit
 
-int MainWindow::snapshotCount = 0;
+int MainWindow::snapshotCount = 0;//seems to construct a bit
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
