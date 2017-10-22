@@ -1,39 +1,39 @@
-#ifndef LEPTONTHREAD
+#ifndef LEPTONTHREAD//Header bla bla
 #define LEPTONTHREAD
 
-#define HAVE_LEPTON true
-#define DEBUG_LEPTON false
+#define HAVE_LEPTON true //as readme has told, debug option that has to be true when lapton should be used
+#define DEBUG_LEPTON false // safes log if I remember corredctly
 
-#include <stdint.h>
+#include <stdint.h>//including things seems like standrt
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <getopt.h>
-#include <fcntl.h>
+#include <getopt.h>//solte man nachgehen
+#include <fcntl.h>//diesem auch
 
 #if HAVE_LEPTON
-#include <sys/ioctl.h>
+#include <sys/ioctl.h>//Wenn Lepton da verschaffe zugriff auf das System
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
 #endif
 
-#if DEBUG_LEPTON
+#if DEBUG_LEPTON//Wenn debug includieren zum Speichern
 #include <list>
 #include <utility>
 #endif
 
-#include <QThread>
+#include <QThread>//seems to work with QT stuff as well
 #include <QDebug>
 #include <QVector>
 
 
-class LeptonThread : public QThread {
+class LeptonThread : public QThread {//Creatig class LeptonThread with parrent QThread (shoud we also use that?)
     Q_OBJECT
 
-    QVector<unsigned char> result;
+    QVector<unsigned char> result;//creating two vectors one for input one for out, seems to be connected to Q_object
     QVector<unsigned short> rawData;
 
-#if HAVE_LEPTON
+#if HAVE_LEPTON//if Lapton available create neccesary variables
     static const char *device;
     static unsigned char mode, bits;
     static unsigned int speed;
@@ -44,28 +44,28 @@ class LeptonThread : public QThread {
     struct spi_ioc_transfer _tr;
 #endif
 
-#if DEBUG_LEPTON
+#if DEBUG_LEPTON//more saving stuff
     std::list< std::pair<int, int> > sequence; // ...of packet #'s received from Lepton, for troubleshooting
 #endif
 
-    bool initLepton();
+    bool initLepton();//function declarations
     int getPacket(int iRow, unsigned char *packetData);
 
 public:
-    enum {
-        FrameWidth = 80,
-        FrameHeight = 60,
-        RowPacketWords = FrameWidth + 2,
-        RowPacketBytes = 2*RowPacketWords,
-        FrameWords = FrameWidth*FrameHeight
-    };
+    enum {//creates more variables for Picure recreation
+        FrameWidth = 160,
+        FrameHeight = 120,
+        RowPacketWords = FrameWidth + 2,//HAS TO BE CHEKED HAND MADE FOR WRONG CAMERA MODEL
+        RowPacketBytes = 2*RowPacketWords,//HAS TO BE CHEKED HAND MADE FOR WRONG CAMERA MODEL
+        FrameWords = FrameWidth*FrameHeight//HAS TO BE CHEKED HAND MADE FOR WRONG CAMERA MODEL
+    };//have never seen Enum before, but because there is no name given I would guess, that the name is the Class name
 
-    LeptonThread();
+    LeptonThread();//constructor +deconstructor
     ~LeptonThread();
 
-    void run();
+    void run();//more function declarations
 
-signals:
+signals://google needs to help you later
     void updateImage(unsigned short *, int, int);
 };
 
